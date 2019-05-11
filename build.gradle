@@ -1,0 +1,119 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "com.moowork.node" version "1.2.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.moowork.node'
+apply plugin: 'io.spring.dependency-management'
+
+buildDir = 'build'
+project.buildDir = "$buildDir"
+
+group = 'com.sergey.didenko'
+def mainClass = 'com.sergey.didenko.spring.TemplateApplication'
+version = '0.4'
+sourceCompatibility = 1.8
+
+//TODO : IDEA tasks :
+// Clean => gradle task 'clean'
+// BootRun => gradle task 'bootRun'
+// BuildProd => gradle task 'copyWar' with argument : '-Pprod'
+// Npm => before Npm - gradle task 'clean compileJava', then : 'webpack:dev' 
+// SpringBoot => 'Build'
+
+bootWar {
+    mainClassName = "$mainClass"
+}
+
+war {
+
+}
+
+task copyWar(type: Copy) {
+    from "$buildDir/libs"
+    into "$buildDir"
+    include('*.war')
+}
+
+springBoot {
+    mainClassName = "$mainClass"
+    buildInfo()
+}
+
+if (project.hasProperty('prod')) {
+    apply from: 'gradle/profile_prod.gradle'
+} else {
+    apply from: 'gradle/profile_dev.gradle'
+}
+
+configurations {
+    providedRuntime
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    //[Spring] tools
+    compile "org.springframework.boot:spring-boot-loader-tools"
+
+    //[Spring] tools
+    annotationProcessor ("org.springframework.boot:spring-boot-configuration-processor")
+
+    //[Spring] Web -> @RestController, @RequestMapping,...
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    //[Spring] JPA Repository for DB
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+
+    //[Spring] Security
+    //implementation('org.springframework.boot:spring-boot-starter-security')
+    //compile 'io.jsonwebtoken:jjwt:0.9.0'
+
+    //[Spring] other modules
+    //providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+    //implementation('org.springframework.session:spring-session-core')
+    //implementation('org.springframework.boot:spring-boot-starter-mail')
+    //implementation('org.springframework.boot:spring-boot-starter-quartz')
+
+    //[DB] migration utils
+    implementation('org.liquibase:liquibase-core')
+
+    //[DB] MySQLConnector
+    compile 'mysql:mysql-connector-java:8.0.13'
+
+    //[DB] JPA 2 generator
+    annotationProcessor "org.hibernate:hibernate-jpamodelgen"
+
+    //[DB] PostgreSQL
+    //runtimeOnly('org.postgresql:postgresql')
+
+    //[Test] utils
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    //testImplementation('org.springframework.security:spring-security-test')
+    testCompile "junit:junit"
+
+}
+
+wrapper {
+    distributionUrl='https://services.gradle.org/distributions/gradle-5.1.1-bin.zip'
+}

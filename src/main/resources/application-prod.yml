@@ -1,0 +1,41 @@
+logging:
+    level:
+        ROOT: INFO
+        com.sergey.didenko.spring.template: INFO
+
+spring:
+    profiles:
+        active: prod
+    devtools:
+        restart:
+            enabled: false
+        livereload:
+            enabled: false
+    datasource:
+        type: com.mysql.cj.jdbc.MysqlDataSource
+        url: jdbc:mysql://localhost:3306/template?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+        username: admin
+        password: admin
+    jpa:
+        open-in-view: false
+        show-sql: false
+        hibernate:
+            naming:
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        properties:
+            hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    liquibase:
+        contexts: prod
+    mvc:
+        favicon:
+            enabled: false
+    thymeleaf:
+        cache: false
+
+server:
+    port: 8080
+    compression:
+        enabled: true
+        mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+        min-response-size: 1024

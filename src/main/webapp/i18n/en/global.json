@@ -1,0 +1,10 @@
+{
+    "global": {
+        "title": "Template",
+        "menu": {
+            "home": "Home",
+            "language": "Language"
+        }
+    },
+    "footer": "copyright"
+}

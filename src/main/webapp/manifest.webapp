@@ -1,0 +1,16 @@
+{
+  "name": "Template",
+  "short_name": "Template",
+  "icons": [
+        {
+            "src": "./assets/images/logo.svg",
+            "sizes": "250x250",
+            "type": "image/svg"
+        },
+  ],
+  "theme_color": "#000000",
+  "background_color": "#e0e0e0",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
