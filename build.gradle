@@ -27,8 +27,8 @@ buildDir = 'build'
 project.buildDir = "$buildDir"
 
 group = 'com.sergey.didenko'
-def mainClass = 'com.sergey.didenko.spring.TemplateApplication'
-version = '0.4'
+def mainClass = 'com.sergey.didenko.spring.template.TemplateApplication'
+version = '0.1'
 sourceCompatibility = 1.8
 
 //TODO : IDEA tasks :
